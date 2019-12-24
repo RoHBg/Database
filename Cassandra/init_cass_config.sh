@@ -16,7 +16,7 @@ fi
 
 # vars defination
 #CLUSTER_NAME="simba-cassandra"
-PRIVATE_IP="$(ifconfig eth0 | grep 'inet ' | awk '{print $2}')"
+PRIVATE_IP="$(ip addr show eth0 | grep 'inet ' | awk '{print $2}' | awk -F'/' '{print $1}')"
 #DC="jp-west"
 #SEEDS="100.18.0.7,100.18.0.8"
 RACK='rack1'
