@@ -22,17 +22,17 @@ case $1 in
     onecluster)
         # seeds are west02 & west03
         SEEDS="100.18.0.7,100.18.0.8"
-        DC="simba-cassandra"
+        CLUSTER_NAME="simba-cassandra"
         ;;
     jpeast)
         # seeds are east02 & east03
         SEEDS="100.19.0.5,100.19.0.6"
-        DC="simba-cassandra-east"
+        CLUSTER_NAME="simba-cassandra-east"
         ;;
     jpwest)
         # seeds are west02 & west03
         SEEDS="100.18.0.7,100.18.0.8"
-        DC="simba-cassandra"
+        CLUSTER_NAME="simba-cassandra"
         ;;
     *)
         echo " -- $1 is not supported"
@@ -56,8 +56,8 @@ echo " -- replace SEED to $1 - ${SEEDS}"
 sed -i.$(date +"%Y%m%d%H%M%S") "/^[^#]/s/seeds:.*$/seeds: \"${SEEDS}\"/" /etc/cassandra/conf/cassandra.yaml
 
 # replace cluster name based on region name
-echo " -- replace cluster name to ${DC}"
-sed -i.$(date +"%Y%m%d%H%M%S") "s/^cluster_name:.*$/cluster_name: \'${DC}\'/" /etc/cassandra/conf/cassandra.yaml
+echo " -- replace cluster name to ${CLUSTER_NAME}"
+sed -i.$(date +"%Y%m%d%H%M%S") "s/^cluster_name:.*$/cluster_name: \'${CLUSTER_NAME}\'/" /etc/cassandra/conf/cassandra.yaml
 
 # restart cassandra DB
 echo ' -- restart cassandra DB'
