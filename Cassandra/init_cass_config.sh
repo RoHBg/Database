@@ -24,7 +24,8 @@ DATA_DIR="/var/lib/cassandra"
 CASS_CONF="/etc/cassandra/conf/cassandra.yaml"
 RACKDC_CONF="/etc/cassandra/conf/cassandra-rackdc.properties"
 
-# generate yum file
+# generate yum repo file
+echo ' -- create yum repo file'
 cat << EOF > /etc/yum.repos.d/cassandra.repo
 [cassandra]
 name=Apache Cassandra
@@ -35,9 +36,11 @@ gpgkey=https://www.apache.org/dist/cassandra/KEYS
 EOF
 
 # install Cassandra
+echo ' -- start isntalling Cassandra'
 yum install -y cassandra
 
 # generate systemd service file
+echo ' -- generate systemd service file'
 cat << EOF > /etc/systemd/system/cassandra.service
 [Unit]
 Description=Apache Cassandra
@@ -55,12 +58,15 @@ WantedBy=multi-user.target
 EOF
 
 # reload service defination
+echo ' -- reloas systemd service defination'
 systemctl daemon-reload
 
 # enable auto startup after reboot
+echo ' -- enable cassandra auto start'
 systemctl enable cassandra
 
 # config vg,lv,datastore for Cassandra
+echo ' -- start configuing datastore for Cassandra'
 systemctl stop cassandra
 vgcreate datavg /dev/sdc 
 lvcreate --name datalv -l100%FREE datavg
